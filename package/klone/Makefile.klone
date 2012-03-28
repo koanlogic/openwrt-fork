@@ -1,0 +1,25 @@
+
+# which klone version?
+KLONE_VERSION ?= 3.0.0
+
+# klone configuration arguments
+KLONE_CONF_ARGS ?= --disable_cxx --install_daemon_only --prefix=/usr
+
+# wrt toolchain (built by package/klone/Makefile)
+KLONE_CUSTOM_TC ?= $(shell pwd)/wrt.tc
+
+# support library
+SUBDIR ?= $(shell pwd)/mymisc
+
+# web application source
+WEBAPP_DIR := $(shell pwd)/webapp
+
+WEBAPP_CFLAGS := -I$(shell pwd)/mymisc 
+WEBAPP_LDADD := $(shell pwd)/mymisc/libmymisc.a
+WEBAPP_LDFLAGS := 
+
+include klapp.mk
+
+klapp.mk:
+	wget -O $@ -c http://koanlogic.com/klone/klapp.mk
+
