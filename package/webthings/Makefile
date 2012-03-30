@@ -25,7 +25,7 @@ define Package/webthings
 	CATEGORY:=Network
 	TITLE:=Webthings Web/IoT bridge
 	URL:=http://github.com/koanlogic/webthings
-	DEPENDS:=+klone +libu +libevent2
+	DEPENDS:=+klone +libu +libevent2 +librt
 endef
 
 # keep debug active for development
