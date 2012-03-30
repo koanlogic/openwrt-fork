@@ -1,4 +1,3 @@
-
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=klone
@@ -20,9 +19,11 @@ endef
 define Build/Compile
 	rm -rf $(PKG_INSTALL_DIR)
 	mkdir -p $(PKG_INSTALL_DIR)
+	# copy across custom Makefile and static+dynamic web content
 	$(CP) $(CURDIR)/Makefile.klone $(PKG_BUILD_DIR)/Makefile
 	$(CP) $(CURDIR)/webapp $(PKG_BUILD_DIR)/
 	$(CP) $(CURDIR)/mymisc $(PKG_BUILD_DIR)/
+	# setup custom MaKL toolchain
 	rm -f $(TC)
 	for v in $(TARGET_CONFIGURE_OPTS); do echo $$$$v >> $(TC); done
 	echo "CC=$(TARGET_CC) -I$(STAGING_DIR)/usr/include -L$(STAGING_DIR)/usr/lib" >> $(TC)
@@ -37,14 +38,15 @@ define Package/klone/install
 endef
 
 define Package/klone/description
- KLone demo application
+	KLone demo application.
 endef
 
 define Package/klone
-  SECTION:=net
-  TITLE:=KLone demo application
-  CATEGORY:=Network
-  URL:=http://koanlogic.com/klone/
+	SECTION:=net
+	CATEGORY:=Network
+	TITLE:=KLone demo application
+	URL:=http://koanlogic.com/klone/
+	DEPENDS:=+zlib +openssl
 endef
 
 $(eval $(call BuildPackage,klone))
