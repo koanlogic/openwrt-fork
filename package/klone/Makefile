@@ -46,7 +46,7 @@ define Package/klone
 	CATEGORY:=Network
 	TITLE:=KLone demo application
 	URL:=http://koanlogic.com/klone/
-	DEPENDS:=+zlib +openssl
+	DEPENDS:=+zlib +libopenssl
 endef
 
 $(eval $(call BuildPackage,klone))
