@@ -1,0 +1,16 @@
+KLONE_VERSION = 3.0.0
+
+# wrt toolchain (built by package/webthings/Makefile)
+KLONE_CUSTOM_TC ?= $(CURDIR)/../../../wrt.tc
+
+KLONE_CONF_ARGS += --disable_cxx
+KLONE_CONF_ARGS += --install_daemon_only
+KLONE_CONF_ARGS += --prefix=/usr
+
+WEBAPP_DIR = $(CURDIR)/webapp
+
+include klapp.mk
+
+klapp.mk: ; wget -O $@ -c http://koanlogic.com/klone/klapp.mk
+
+distclean: ;

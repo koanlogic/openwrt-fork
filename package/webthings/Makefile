@@ -2,7 +2,7 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=webthings
-PKG_REV:=c0398bd5ce397c13ccff1f1b6e0513bad9998f90
+PKG_REV:=a305e8a114688bab99af8fb58db71282a4d8b643
 PKG_RELEASE:=1
 
 PKG_SOURCE_PROTO:=git
@@ -25,11 +25,13 @@ define Package/webthings
 	CATEGORY:=Network
 	TITLE:=Webthings Web/IoT bridge
 	URL:=http://github.com/koanlogic/webthings
-	DEPENDS:=+klone +libu +libevent2 +librt +tunslip6
+	DEPENDS:=+libu +libevent2 +librt +tunslip6
 endef
 
 # keep debug active for development
 define Build/Configure
+
+	# configure bridge software
 	cd $(PKG_BUILD_DIR)/bridge/sw && \
 	CC="$(TARGET_CC) -fPIC -I$(STAGING_DIR)/usr/include -L$(STAGING_DIR)/usr/lib" \
 	makl-conf -v \
@@ -43,33 +45,56 @@ define Build/Configure
 		--enable_warns \
 		--enable_extra \
 		--cross_compile
+
 endef
 
 define Build/Compile
+
 	rm -rf $(PKG_INSTALL_DIR)
 	mkdir -p $(PKG_INSTALL_DIR)
+
 	# setup custom MaKL toolchain
 	rm -f $(TC)
 	for v in $(TARGET_CONFIGURE_OPTS); do echo $$$$v >> $(TC); done
 	echo "CC=$(TARGET_CC) -fPIC -I$(STAGING_DIR)/usr/include -L$(STAGING_DIR)/usr/lib" >> $(TC)
 	echo "using toolchain: $(TC)"
-	makl \
+
+	# build bridge software
+	cd $(PKG_BUILD_DIR)/bridge/sw && \
+		makl \
 		--makl-tc-file=$(PKG_BUILD_DIR)/wrt.tc \
 		--makl-tc-onthefly \
 		-C $(PKG_BUILD_DIR)/bridge/sw \
 		all install
+
+	# build demo
+	$(CP) $(CURDIR)/Makefile.klone $(PKG_BUILD_DIR)/web/demo/kloned/Makefile
+	cd $(PKG_BUILD_DIR)/web/demo/kloned && \
+		$(MAKE)
+
 endef
 
 define Build/InstallDev
+
+	# libraries for compilation
 	$(INSTALL_DIR) $(1)/usr/lib
 	$(CP) $(PKG_INSTALL_DIR)/lib/lib*.so* $(1)/usr/lib
+
 endef
 
 define Package/webthings/install
+
+	# webthings dynamic libs
 	$(INSTALL_DIR) $(1)/usr/lib
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/lib/lib*.so* $(1)/usr/lib
+
+	# webthings binaries
 	$(INSTALL_DIR) $(1)/usr/sbin
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/bin/kink $(1)/usr/sbin
+
+	# webthings demo
+	$(INSTALL_BIN) $(PKG_BUILD_DIR)/web/demo/kloned/kloned $(1)/usr/sbin/wtdemo
+
 endef
 
 $(eval $(call BuildPackage,webthings))
