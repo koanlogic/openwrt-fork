@@ -25,7 +25,7 @@ define Package/webthings
 	CATEGORY:=Network
 	TITLE:=Webthings Web/IoT bridge
 	URL:=http://github.com/koanlogic/webthings
-	DEPENDS:=+klone +libu +libevent2 +librt
+	DEPENDS:=+klone +libu +libevent2 +librt +tunslip6
 endef
 
 # keep debug active for development
@@ -62,12 +62,14 @@ endef
 
 define Build/InstallDev
 	$(INSTALL_DIR) $(1)/usr/lib
-	$(CP) $(PKG_INSTALL_DIR)/lib/libevcoap.so* $(1)/usr/lib
+	$(CP) $(PKG_INSTALL_DIR)/lib/lib*.so* $(1)/usr/lib
 endef
 
 define Package/webthings/install
+	$(INSTALL_DIR) $(1)/usr/lib
+	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/lib/lib*.so* $(1)/usr/lib
 	$(INSTALL_DIR) $(1)/usr/sbin
-	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/bin/kink $(1)/usr/sbin/
+	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/bin/kink $(1)/usr/sbin
 endef
 
 $(eval $(call BuildPackage,webthings))
