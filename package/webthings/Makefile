@@ -99,6 +99,10 @@ define Package/webthings/install
 	# webthings demo
 	$(INSTALL_BIN) $(PKG_BUILD_DIR)/web/demo/kloned/kloned $(1)/usr/sbin/wtdemo
 
+	# init script
+	$(INSTALL_DIR) $(1)/etc/init.d
+	$(INSTALL_BIN) ./files/webthings.init $(1)/etc/init.d/webthings
+
 endef
 
 $(eval $(call BuildPackage,webthings))

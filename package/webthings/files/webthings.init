@@ -1,0 +1,19 @@
+#!/bin/sh /etc/rc.common
+# Copyright (c) 2012 KoanLogic Srl
+
+START=70
+STOP=90
+SERVICE_DAEMONIZE=1
+
+start() {
+    service_start /usr/sbin/tunslip6 aaaa::1/64 
+    sleep 1
+    service_start /usr/sbin/kink
+    service_start /usr/sbin/wtdemo
+}
+
+stop() {
+    service_stop /usr/sbin/wtdemo
+    service_stop /usr/sbin/kink
+    service_stop /usr/sbin/tunslip6
+}
