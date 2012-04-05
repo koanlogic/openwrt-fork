@@ -13,7 +13,21 @@ TC=$(PKG_BUILD_DIR)/wrt.tc
 
 include $(INCLUDE_DIR)/package.mk
 
+define Package/klone/description
+	KLone demo application.
+endef
+
+define Package/klone
+	SECTION:=net
+	CATEGORY:=Network
+    SUBMENU:=Web Servers/Proxies
+	TITLE:=KLone demo application
+	URL:=http://koanlogic.com/klone/
+	DEPENDS:=+zlib +libopenssl
+endef
+
 define Build/Configure
+	true
 endef
 
 define Build/Compile
@@ -35,18 +49,6 @@ endef
 define Package/klone/install
 	$(INSTALL_DIR) $(1)/usr/sbin
 	$(INSTALL_BIN) $(PKG_BUILD_DIR)/kloned $(1)/usr/sbin/ 
-endef
-
-define Package/klone/description
-	KLone demo application.
-endef
-
-define Package/klone
-	SECTION:=net
-	CATEGORY:=Network
-	TITLE:=KLone demo application
-	URL:=http://koanlogic.com/klone/
-	DEPENDS:=+zlib +libopenssl
 endef
 
 $(eval $(call BuildPackage,klone))
