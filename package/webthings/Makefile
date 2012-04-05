@@ -2,7 +2,7 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=webthings
-PKG_REV:=a305e8a114688bab99af8fb58db71282a4d8b643
+PKG_REV:=f2b05eb1727e8c8d0fe3d3709ff84dc2df25c9db
 PKG_RELEASE:=1
 
 PKG_SOURCE_PROTO:=git
@@ -45,6 +45,10 @@ define Build/Configure
 		--enable_warns \
 		--enable_extra \
 		--cross_compile
+
+	# configure demo
+	cd $(PKG_BUILD_DIR)/web/demo && \
+        makl-conf
 
 endef
 
