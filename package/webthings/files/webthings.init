@@ -2,7 +2,7 @@
 # Copyright (c) 2012 KoanLogic Srl
 
 START=70
-STOP=90
+STOP=70
 SERVICE_DAEMONIZE=1
 
 start() {
