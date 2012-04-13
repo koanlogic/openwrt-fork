@@ -96,6 +96,7 @@ define Package/webthings/install
 	# webthings binaries
 	$(INSTALL_DIR) $(1)/usr/sbin
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/bin/kink $(1)/usr/sbin
+	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/bin/coap-client $(1)/usr/sbin
 
 	# webthings demo
 	$(INSTALL_BIN) $(PKG_BUILD_DIR)/web/demo/kloned/kloned $(1)/usr/sbin/wtdemo
