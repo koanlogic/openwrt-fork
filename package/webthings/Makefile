@@ -2,7 +2,7 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=webthings
-PKG_REV:=f2b05eb1727e8c8d0fe3d3709ff84dc2df25c9db
+PKG_REV:=039c25e629913145ae9daf282374fc09c32a4321
 PKG_RELEASE:=1
 
 PKG_SOURCE_PROTO:=git
@@ -44,6 +44,7 @@ define Build/Configure
 		--enable_debug \
 		--enable_warns \
 		--enable_extra \
+		--enable_demo \
 		--cross_compile
 
 	# configure demo
